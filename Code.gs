@@ -9,8 +9,8 @@
  *       Who has access: Anyone
  *  4. Copy the resulting Web app URL into index.html (SHEET_ENDPOINT)
  *
- * The expected header row in the sheet (first row, columns A–J):
- *   timestamp | selected_levels | why_humans | why_you | satisfaction | age | gender | relationship | email | user_agent
+ * The expected header row in the sheet (first row, columns A–K):
+ *   timestamp | selected_levels | why_humans | why_you | satisfaction | age | gender | relationship | email | country | user_agent
  */
 
 const COLUMNS = [
@@ -23,6 +23,7 @@ const COLUMNS = [
   'gender',
   'relationship',
   'email',
+  'country',
   'user_agent',
 ];
 

@@ -22,8 +22,9 @@ That's it for hosting. Now wire up the form.
 1. Create a new Google Sheet. Name it whatever you like.
 2. In the first row, add these column headers (exactly, left to right):
    ```
-   timestamp	selected_levels	why_humans	why_you	satisfaction	age	gender	relationship	email	user_agent
+   timestamp	selected_levels	why_humans	why_you	satisfaction	age	gender	relationship	email	country	user_agent
    ```
+   The `country` column is filled automatically with an ISO 2-letter code (e.g. `AU`, `US`, `GB`) based on the respondent's IP, via the free `api.country.is` lookup. No personally identifying info beyond country is stored.
 3. **Extensions → Apps Script**. Delete the placeholder `myFunction` and paste the contents of `Code.gs` (included next to this README).
 4. Click **Deploy → New deployment**:
    - **Type:** Web app

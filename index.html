@@ -669,6 +669,22 @@
 // log a friendly note to the console. Swap it in when ready.
 const SHEET_ENDPOINT = ""; // e.g. "https://script.google.com/macros/s/AKfyc.../exec"
 
+// ---------- country detection (silent, IP-based) ----------
+// Uses api.country.is: free, no key, CORS-enabled, returns ISO 2-letter codes.
+// If it fails the field is just left blank, no error shown.
+let detectedCountry = '';
+(async function detectCountry() {
+  try {
+    const res = await fetch('https://api.country.is/');
+    if (res.ok) {
+      const data = await res.json();
+      detectedCountry = data.country || '';
+    }
+  } catch (err) {
+    console.warn('Country detection failed; submitting without it.', err);
+  }
+})();
+
 // ---------- pyramid painting ----------
 (function pyramidInit() {
   const svg = document.querySelector('.pyramid-svg');
@@ -856,6 +872,7 @@ const SHEET_ENDPOINT = ""; // e.g. "https://script.google.com/macros/s/AKfyc.../
       gender: data.get('gender') || '',
       relationship: data.get('relationship') || '',
       email: (data.get('email') || '').trim(),
+      country: detectedCountry,
       user_agent: navigator.userAgent,
     };
 
