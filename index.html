@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="description" content="A small, friendly experiment about where sex lives on Maslow's hierarchy of needs. For a book." />
+<meta name="theme-color" content="#f3e7d3" />
+<title>Why do we need sex?</title>
+
+<!-- Open Graph -->
+<meta property="og:title" content="Why do we need sex?" />
+<meta property="og:description" content="A small experiment about where sex sits on Maslow's hierarchy." />
+<meta property="og:type" content="website" />
+
+<!-- Fonts: characterful serif + clean sans, both from Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  /* ---------- design tokens ---------- */
+  :root {
+    --cream:        #f3e7d3;
+    --cream-deep:   #ead9bd;
+    --paper:        #fbf3e3;
+    --ink:          #2b1a16;
+    --ink-soft:     #5a3f37;
+    --terracotta:   #c87253;
+    --terracotta-d: #a85638;
+    --burgundy:     #6b2737;
+    --burgundy-d:   #4d1a26;
+    --peach:        #f0b893;
+    --shadow:       rgba(76, 28, 20, .15);
+    --shadow-deep:  rgba(76, 28, 20, .28);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* a soft paper grain, pure CSS, no images */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(200, 114, 83, .06), transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(107, 39, 55, .05), transparent 45%);
+    z-index: 0;
+  }
+
+  main {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 5vw, 2rem) 4rem;
+  }
+
+  /* ---------- typography ---------- */
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 600; color: var(--burgundy); letter-spacing: -0.01em; }
+
+  h1 {
+    font-size: clamp(2.5rem, 8vw, 4.25rem);
+    line-height: 1;
+    margin: 0.2em 0 0.4em;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--terracotta-d);
+  }
+  .subhead {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+    color: var(--ink-soft);
+    margin: 0 0 2rem;
+    font-weight: 400;
+  }
+  h2 {
+    font-size: clamp(1.4rem, 3.6vw, 1.8rem);
+    margin: 2.5rem 0 0.5rem;
+  }
+
+  p { margin: 0 0 1em; }
+  .lede p { font-size: 1.05rem; }
+  .lede a {
+    color: var(--terracotta-d);
+    text-decoration-color: rgba(168, 86, 56, .4);
+    text-underline-offset: 3px;
+    transition: text-decoration-color .2s, color .2s;
+  }
+  .lede a:hover { color: var(--burgundy); text-decoration-color: var(--burgundy); }
+  .lede p:first-of-type::first-letter {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 800;
+    font-size: 3.4em;
+    float: left;
+    line-height: .85;
+    padding: .08em .08em 0 0;
+    color: var(--terracotta-d);
+  }
+
+  /* tiny eyebrow tag at the top */
+  .eyebrow {
+    display: inline-block;
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: .9rem;
+    color: var(--terracotta-d);
+    background: var(--paper);
+    padding: .35em .85em;
+    border: 1px solid var(--cream-deep);
+    border-radius: 999px;
+    margin-bottom: 1.25rem;
+  }
+
+  /* ---------- pyramid ---------- */
+  .pyramid-wrap {
+    background: var(--paper);
+    border: 1px solid var(--cream-deep);
+    border-radius: 18px;
+    padding: 1rem clamp(.5rem, 2vw, 1rem) 1.25rem;
+    margin: 2rem 0 1rem;
+    box-shadow: 0 2px 0 var(--cream-deep), 0 18px 40px -24px var(--shadow);
+  }
+
+  .instructions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: .5rem;
+    padding: 0 .25rem;
+  }
+  .instructions p {
+    margin: 0;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1rem;
+  }
+  .clear-btn {
+    background: transparent;
+    border: 1px dashed var(--terracotta);
+    color: var(--terracotta-d);
+    font-family: 'Inter', sans-serif;
+    font-size: .85rem;
+    padding: .35rem .75rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background .2s, transform .2s;
+  }
+  .clear-btn:hover { background: rgba(200, 114, 83, .1); }
+  .clear-btn:active { transform: scale(.96); }
+
+  .pyramid-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    touch-action: none; /* important: stops scroll while painting on mobile */
+    user-select: none;
+    -webkit-user-select: none;
+    cursor: crosshair;
+  }
+
+  /* level shapes */
+  .level {
+    fill: var(--cream);
+    stroke: var(--burgundy);
+    stroke-width: 1.6;
+    stroke-linejoin: round;
+    transition: fill .25s ease, transform .25s cubic-bezier(.34, 1.56, .64, 1);
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+  .level:hover { fill: var(--cream-deep); }
+  .level.selected {
+    fill: url(#paint);
+    animation: pop .4s cubic-bezier(.34, 1.56, .64, 1);
+  }
+  .level:focus-visible {
+    outline: 3px dashed var(--terracotta-d);
+    outline-offset: 4px;
+  }
+
+  @keyframes pop {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.025); }
+    100% { transform: scale(1); }
+  }
+
+  /* labels */
+  .level-label {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    fill: var(--burgundy);
+    pointer-events: none;
+    transition: fill .25s ease, font-weight .25s ease;
+  }
+  .level-label.tiny { font-size: 14px; }
+  .level-label.small { font-size: 16px; }
+  .level-label.med { font-size: 18px; }
+  .level-label.big { font-size: 19px; }
+  .level-label.selected {
+    fill: var(--paper);
+    font-weight: 800;
+  }
+
+  .checkmark {
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(.4);
+    transform-origin: center;
+    transform-box: fill-box;
+    transition: opacity .3s ease, transform .35s cubic-bezier(.34, 1.56, .64, 1);
+  }
+  .checkmark.selected {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* tally */
+  .tally {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: .95rem;
+    color: var(--ink-soft);
+    text-align: center;
+    margin: .25rem 0 0;
+    min-height: 1.4em;
+  }
+  .tally strong { color: var(--terracotta-d); font-style: normal; font-weight: 600; }
+
+  /* ---------- form ---------- */
+  form {
+    background: var(--paper);
+    border: 1px solid var(--cream-deep);
+    border-radius: 18px;
+    padding: 1.5rem clamp(1rem, 4vw, 1.75rem);
+    box-shadow: 0 2px 0 var(--cream-deep), 0 18px 40px -24px var(--shadow);
+  }
+
+  .field { margin-bottom: 1.5rem; }
+  label {
+    display: block;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    color: var(--burgundy);
+    font-size: 1.08rem;
+    margin-bottom: .35rem;
+  }
+  .label-helper {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: .85rem;
+    color: var(--ink-soft);
+    margin-bottom: .55rem;
+    font-weight: 400;
+  }
+  .label-helper a {
+    color: var(--terracotta-d);
+    text-decoration-color: rgba(168, 86, 56, .4);
+    text-underline-offset: 2px;
+    transition: color .2s, text-decoration-color .2s;
+  }
+  .label-helper a:hover { color: var(--burgundy); text-decoration-color: var(--burgundy); }
+
+  textarea, input[type=text], input[type=email], select {
+    width: 100%;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    color: var(--ink);
+    background: var(--cream);
+    border: 1.5px solid var(--cream-deep);
+    border-radius: 10px;
+    padding: .7rem .85rem;
+    transition: border-color .2s, background .2s, box-shadow .2s;
+  }
+  textarea {
+    min-height: 110px;
+    resize: vertical;
+    line-height: 1.5;
+  }
+  textarea:focus, input:focus, select:focus {
+    outline: none;
+    border-color: var(--terracotta);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(200, 114, 83, .2);
+  }
+  select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path fill='%236b2737' d='M4 6l4 4 4-4'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right .85rem center;
+    background-size: 14px;
+    padding-right: 2.25rem;
+  }
+
+  /* slider */
+  .slider-wrap { padding: .5rem 0; }
+  .slider-endpoints {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: .5rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    font-size: .9rem;
+    color: var(--ink-soft);
+  }
+  .slider-endpoints span:last-child { text-align: right; }
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    background: var(--cream-deep);
+    border-radius: 999px;
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 28px; height: 28px;
+    background: var(--terracotta);
+    border: 3px solid var(--paper);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px var(--shadow);
+    transition: transform .15s, background .15s;
+  }
+  input[type=range]::-webkit-slider-thumb:hover,
+  input[type=range]::-webkit-slider-thumb:active { background: var(--terracotta-d); transform: scale(1.1); }
+  input[type=range]::-moz-range-thumb {
+    width: 28px; height: 28px;
+    background: var(--terracotta);
+    border: 3px solid var(--paper);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px var(--shadow);
+  }
+  .slider-value {
+    text-align: center;
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: var(--terracotta-d);
+    margin-top: .35rem;
+  }
+
+  /* the two-column row for demographics */
+  .row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  @media (min-width: 540px) {
+    .row { grid-template-columns: 1fr 1fr 1fr; }
+    .row .field { margin-bottom: 0; }
+  }
+
+  /* disclaimer */
+  .disclaimer {
+    background: rgba(200, 114, 83, .09);
+    border-left: 3px solid var(--terracotta);
+    border-radius: 6px;
+    padding: .9rem 1rem;
+    margin: 1.5rem 0;
+    font-size: .92rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .disclaimer strong { color: var(--burgundy); }
+
+  /* submit */
+  .submit-btn {
+    width: 100%;
+    background: var(--burgundy);
+    color: var(--paper);
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    box-shadow: 0 4px 0 var(--burgundy-d);
+  }
+  .submit-btn:hover { background: var(--burgundy-d); }
+  .submit-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--burgundy-d); }
+  .submit-btn:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+  /* thank you */
+  .thank-you {
+    display: none;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+  .thank-you.visible { display: block; }
+  .thank-you h2 {
+    font-size: clamp(1.8rem, 4.5vw, 2.4rem);
+    margin: 0 0 .5rem;
+    color: var(--terracotta-d);
+  }
+  .thank-you p {
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+  }
+
+  .error-msg {
+    background: rgba(107, 39, 55, .08);
+    border: 1px solid rgba(107, 39, 55, .2);
+    color: var(--burgundy);
+    padding: .75rem 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+    font-size: .9rem;
+    display: none;
+  }
+  .error-msg.visible { display: block; }
+
+  /* footer */
+  footer {
+    text-align: center;
+    margin-top: 3rem;
+    color: var(--ink-soft);
+    font-size: .85rem;
+    font-family: 'Fraunces', Georgia, serif;
+    font-style: italic;
+  }
+  footer a { color: var(--terracotta-d); }
+
+  /* a11y: visible focus on everything */
+  button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible {
+    outline: 3px solid var(--terracotta-d);
+    outline-offset: 2px;
+  }
+
+  /* respect reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+  <span class="eyebrow">A small experiment</span>
+
+  <h1>Why do we need <em>sex</em>?</h1>
+
+  <div class="lede">
+    <p>In 1943, a psychologist called Abraham Maslow proposed a hierarchy of needs. Below is one drawing of it. The idea is that at the bottom are the things we need to keep the body going, and as each of our needs is met, we open up a new one, all the way up to self-actualisation.</p>
+
+    <p>Read all about it, here is a <a href="https://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs" target="_blank" rel="noopener">Wikipedia article</a>.</p>
+  </div>
+
+  <section aria-labelledby="pyramid-heading">
+    <div class="pyramid-wrap">
+      <div class="instructions">
+        <p id="pyramid-heading">Tap, drag, or paint. Pick as many as you like.</p>
+        <button type="button" class="clear-btn" id="clearBtn" aria-label="Clear pyramid selections">Clear</button>
+      </div>
+
+      <svg class="pyramid-svg" viewBox="0 0 600 520" role="img" aria-labelledby="pyramidTitle pyramidDesc">
+        <title id="pyramidTitle">Maslow's hierarchy of needs</title>
+        <desc id="pyramidDesc">A five-level pyramid. From bottom to top: Physiological, Safety, Love and Belonging, Esteem, Self-Actualisation. Tap or click each level to mark where you think sex belongs.</desc>
+
+        <defs>
+          <!-- the warm "paint" fill -->
+          <linearGradient id="paint" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#d88564" />
+            <stop offset="100%" stop-color="#a85638" />
+          </linearGradient>
+
+          <!-- diagonal hatch pattern overlay for tactile feel -->
+          <pattern id="hatch" patternUnits="userSpaceOnUse" width="9" height="9" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="9" stroke="rgba(255,243,227,0.18)" stroke-width="3" />
+          </pattern>
+
+          <!-- soft drop shadow for the pyramid -->
+          <filter id="softShadow" x="-10%" y="-10%" width="120%" height="120%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" />
+            <feOffset dx="0" dy="3" />
+            <feComponentTransfer><feFuncA type="linear" slope="0.3" /></feComponentTransfer>
+            <feMerge>
+              <feMergeNode />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <g filter="url(#softShadow)">
+          <!-- Level 1: Physiological (bottom, widest) -->
+          <path class="level" data-level="Physiological" tabindex="0" role="button" aria-pressed="false" aria-label="Physiological needs"
+                d="M 40 480 L 560 480 L 508 390 L 92 390 Z" />
+
+          <!-- Level 2: Safety -->
+          <path class="level" data-level="Safety" tabindex="0" role="button" aria-pressed="false" aria-label="Safety needs"
+                d="M 92 390 L 508 390 L 456 300 L 144 300 Z" />
+
+          <!-- Level 3: Love & Belonging -->
+          <path class="level" data-level="Love &amp; Belonging" tabindex="0" role="button" aria-pressed="false" aria-label="Love and belonging"
+                d="M 144 300 L 456 300 L 404 210 L 196 210 Z" />
+
+          <!-- Level 4: Esteem -->
+          <path class="level" data-level="Esteem" tabindex="0" role="button" aria-pressed="false" aria-label="Esteem"
+                d="M 196 210 L 404 210 L 352 120 L 248 120 Z" />
+
+          <!-- Level 5: Self-Actualisation (top triangle) -->
+          <path class="level" data-level="Self-Actualisation" tabindex="0" role="button" aria-pressed="false" aria-label="Self-actualisation"
+                d="M 248 120 L 352 120 L 300 30 Z" />
+        </g>
+
+        <!-- Labels (pointer-events: none so the path underneath gets the click) -->
+        <text class="level-label big" x="300" y="442" text-anchor="middle" data-label="Physiological">Physiological</text>
+        <text class="level-label med" x="300" y="352" text-anchor="middle" data-label="Safety">Safety</text>
+        <text class="level-label small" x="300" y="262" text-anchor="middle" data-label="Love &amp; Belonging">Love &amp; Belonging</text>
+        <text class="level-label small" x="300" y="172" text-anchor="middle" data-label="Esteem">Esteem</text>
+        <text class="level-label tiny" x="300" y="92" text-anchor="middle" data-label="Self-Actualisation">Self-Actualisation</text>
+
+        <!-- Subtle level markers/checks (drawn but invisible until selected) -->
+        <g class="checkmarks">
+          <circle class="checkmark" data-check="Physiological" cx="535" cy="435" r="11" fill="var(--paper)" stroke="var(--burgundy)" stroke-width="1.5" />
+          <path class="checkmark" data-check="Physiological" d="M 530 435 l 4 4 l 7 -8" stroke="var(--burgundy)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+
+          <circle class="checkmark" data-check="Safety" cx="488" cy="345" r="10" fill="var(--paper)" stroke="var(--burgundy)" stroke-width="1.5" />
+          <path class="checkmark" data-check="Safety" d="M 483 345 l 3.5 3.5 l 6 -7" stroke="var(--burgundy)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+
+          <circle class="checkmark" data-check="Love &amp; Belonging" cx="438" cy="255" r="10" fill="var(--paper)" stroke="var(--burgundy)" stroke-width="1.5" />
+          <path class="checkmark" data-check="Love &amp; Belonging" d="M 433 255 l 3.5 3.5 l 6 -7" stroke="var(--burgundy)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+
+          <circle class="checkmark" data-check="Esteem" cx="386" cy="165" r="10" fill="var(--paper)" stroke="var(--burgundy)" stroke-width="1.5" />
+          <path class="checkmark" data-check="Esteem" d="M 381 165 l 3.5 3.5 l 6 -7" stroke="var(--burgundy)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+
+          <circle class="checkmark" data-check="Self-Actualisation" cx="334" cy="80" r="9" fill="var(--paper)" stroke="var(--burgundy)" stroke-width="1.5" />
+          <path class="checkmark" data-check="Self-Actualisation" d="M 330 80 l 3 3 l 5 -6" stroke="var(--burgundy)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+        </g>
+      </svg>
+
+      <p class="tally" id="tally" aria-live="polite">No levels selected yet. Go on, give it a try.</p>
+    </div>
+  </section>
+
+  <h2>A few more questions, while I have you.</h2>
+
+  <form id="surveyForm" novalidate>
+
+    <div class="field">
+      <label for="why_humans">Why do you think humans have sex?</label>
+      <textarea id="why_humans" name="why_humans" required></textarea>
+    </div>
+
+    <div class="field">
+      <label for="why_you">Why do <em>you</em>, personally, have sex?</label>
+      <textarea id="why_you" name="why_you" required></textarea>
+    </div>
+
+    <div class="field">
+      <label for="satisfaction">How satisfied are you with your sex life currently?</label>
+      <div class="slider-wrap">
+        <input type="range" id="satisfaction" name="satisfaction" min="1" max="10" value="5" step="1" aria-describedby="satVal" />
+        <div class="slider-endpoints">
+          <span>1 &nbsp;Not at all satisfied</span>
+          <span>Extremely satisfied&nbsp; 10</span>
+        </div>
+        <div class="slider-value" id="satVal">5</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="age">Age range</label>
+        <select id="age" name="age">
+          <option value="">prefer not to say</option>
+          <option>Under 18</option>
+          <option>18–24</option>
+          <option>25–34</option>
+          <option>35–44</option>
+          <option>45–54</option>
+          <option>55–64</option>
+          <option>65+</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="gender">Gender</label>
+        <select id="gender" name="gender">
+          <option value="">prefer not to say</option>
+          <option>Woman</option>
+          <option>Man</option>
+          <option>Non-binary</option>
+          <option>Trans woman</option>
+          <option>Trans man</option>
+          <option>Genderqueer / fluid</option>
+          <option>Self-describe / other</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="relationship">Relationship status</label>
+        <select id="relationship" name="relationship">
+          <option value="">prefer not to say</option>
+          <option>Single</option>
+          <option>Dating</option>
+          <option>Partnered</option>
+          <option>Married</option>
+          <option>It's complicated</option>
+          <option>Polyamorous / open</option>
+          <option>Separated / divorced</option>
+          <option>Widowed</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="email">Please share your email if you would like to receive the findings.</label>
+      <span class="label-helper">Or come back to <a href="https://substack.com/@clarecarmody" target="_blank" rel="noopener">my Substack</a> on June 1, 2026.</span>
+      <input type="email" id="email" name="email" placeholder="you@somewhere.com" autocomplete="email" />
+    </div>
+
+    <input type="hidden" name="selected_levels" id="selectedLevelsInput" value="" />
+
+    <div class="disclaimer">
+      Your answers will always stay anonymous and de-identified.
+    </div>
+
+    <button type="submit" class="submit-btn" id="submitBtn">Send it</button>
+
+    <div class="error-msg" id="errorMsg" role="alert"></div>
+  </form>
+
+  <div class="thank-you" id="thankYou" aria-live="polite">
+    <h2>Thank you.</h2>
+    <p>That's exactly the kind of honesty I was hoping for. Go drink a glass of water.</p>
+  </div>
+
+  <footer>
+    <p>© Clare 2026</p>
+  </footer>
+
+</main>
+
+<script>
+/* ===============================================================
+   Where Does Sex Live?
+   Pure HTML/CSS/JS, no frameworks, no build step.
+   =============================================================== */
+
+// 🔧 SET THIS to your Google Apps Script web-app URL.
+// Setup instructions are in the README.md beside this file.
+// While this is empty the form will save to localStorage instead and
+// log a friendly note to the console. Swap it in when ready.
+const SHEET_ENDPOINT = ""; // e.g. "https://script.google.com/macros/s/AKfyc.../exec"
+
+// ---------- pyramid painting ----------
+(function pyramidInit() {
+  const svg = document.querySelector('.pyramid-svg');
+  const levels = svg.querySelectorAll('.level');
+  const labels = svg.querySelectorAll('.level-label');
+  const checks = svg.querySelectorAll('.checkmark');
+  const tally  = document.getElementById('tally');
+  const hidden = document.getElementById('selectedLevelsInput');
+  const clearBtn = document.getElementById('clearBtn');
+
+  const selected = new Set();
+
+  // tactile haptic feedback on supported mobile
+  function buzz() {
+    if (navigator.vibrate) navigator.vibrate(8);
+  }
+
+  function render() {
+    levels.forEach(p => {
+      const name = p.dataset.level;
+      const on = selected.has(name);
+      p.classList.toggle('selected', on);
+      p.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    labels.forEach(l => {
+      const on = selected.has(l.dataset.label);
+      l.classList.toggle('selected', on);
+    });
+    checks.forEach(c => {
+      const on = selected.has(c.dataset.check);
+      c.classList.toggle('selected', on);
+    });
+    hidden.value = Array.from(selected).join('|');
+    updateTally();
+  }
+
+  function updateTally() {
+    const n = selected.size;
+    if (n === 0) {
+      tally.innerHTML = "No levels selected yet. Go on, give it a try.";
+    } else if (n === 1) {
+      tally.innerHTML = `<strong>${escapeHtml([...selected][0])}</strong>. A confident pick.`;
+    } else if (n === 5) {
+      tally.innerHTML = `<strong>All five.</strong> Bold. Honest. I love it.`;
+    } else {
+      const list = Array.from(selected).map(escapeHtml).join(', ');
+      tally.innerHTML = `<strong>${n} levels:</strong> ${list}.`;
+    }
+  }
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  // figure out which level is under a given clientX/Y
+  function getLevelAt(x, y) {
+    const el = document.elementFromPoint(x, y);
+    if (el && el.classList && el.classList.contains('level')) {
+      return el.dataset.level;
+    }
+    return null;
+  }
+
+  let isPainting = false;
+  let hasMoved = false;
+  let downLevel = null;
+  let downWasSelected = false;
+
+  function pointerDown(e) {
+    if (e.button !== undefined && e.button !== 0) return;
+    e.preventDefault();
+    try { svg.setPointerCapture(e.pointerId); } catch(_) {}
+    isPainting = true;
+    hasMoved = false;
+    downLevel = getLevelAt(e.clientX, e.clientY);
+    if (!downLevel) return;
+    downWasSelected = selected.has(downLevel);
+    if (!downWasSelected) {
+      selected.add(downLevel);
+      buzz();
+      render();
+    }
+  }
+
+  function pointerMove(e) {
+    if (!isPainting) return;
+    hasMoved = true;
+    const lvl = getLevelAt(e.clientX, e.clientY);
+    if (lvl && !selected.has(lvl)) {
+      selected.add(lvl);
+      buzz();
+      render();
+    }
+  }
+
+  function pointerUp(e) {
+    if (!isPainting) return;
+    // single click on already-selected level toggles it off
+    if (!hasMoved && downLevel && downWasSelected) {
+      selected.delete(downLevel);
+      render();
+    }
+    isPainting = false;
+    downLevel = null;
+    downWasSelected = false;
+    try { svg.releasePointerCapture(e.pointerId); } catch(_) {}
+  }
+
+  svg.addEventListener('pointerdown', pointerDown);
+  svg.addEventListener('pointermove', pointerMove);
+  svg.addEventListener('pointerup', pointerUp);
+  svg.addEventListener('pointercancel', pointerUp);
+  svg.addEventListener('pointerleave', e => { if (isPainting) hasMoved = true; });
+
+  // keyboard accessibility: Space/Enter on a focused level toggles it
+  levels.forEach(p => {
+    p.addEventListener('keydown', e => {
+      if (e.key === ' ' || e.key === 'Enter') {
+        e.preventDefault();
+        const name = p.dataset.level;
+        if (selected.has(name)) selected.delete(name); else selected.add(name);
+        render();
+      }
+    });
+  });
+
+  clearBtn.addEventListener('click', () => {
+    selected.clear();
+    render();
+  });
+
+  render();
+})();
+
+// ---------- slider value mirror ----------
+(function sliderInit() {
+  const slider = document.getElementById('satisfaction');
+  const out = document.getElementById('satVal');
+  function update() {
+    out.textContent = slider.value;
+  }
+  slider.addEventListener('input', update);
+  update();
+})();
+
+// ---------- form submission ----------
+(function formInit() {
+  const form = document.getElementById('surveyForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const errorMsg = document.getElementById('errorMsg');
+  const thanks = document.getElementById('thankYou');
+
+  function showError(msg) {
+    errorMsg.textContent = msg;
+    errorMsg.classList.add('visible');
+  }
+  function clearError() {
+    errorMsg.textContent = '';
+    errorMsg.classList.remove('visible');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearError();
+
+    const data = new FormData(form);
+    // basic validation
+    if (!data.get('why_humans').trim() || !data.get('why_you').trim()) {
+      showError("Both open-text answers are kind of the point. Give them a go.");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    const originalLabel = submitBtn.textContent;
+    submitBtn.textContent = 'Sending…';
+
+    // build the payload
+    const payload = {
+      timestamp: new Date().toISOString(),
+      selected_levels: data.get('selected_levels') || '',
+      why_humans: data.get('why_humans').trim(),
+      why_you: data.get('why_you').trim(),
+      satisfaction: data.get('satisfaction'),
+      age: data.get('age') || '',
+      gender: data.get('gender') || '',
+      relationship: data.get('relationship') || '',
+      email: (data.get('email') || '').trim(),
+      user_agent: navigator.userAgent,
+    };
+
+    try {
+      if (SHEET_ENDPOINT) {
+        // Google Apps Script web apps work best with text/plain
+        // (avoids a CORS preflight). The script parses JSON server-side.
+        await fetch(SHEET_ENDPOINT, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(payload),
+        });
+      } else {
+        // dev fallback: stash locally so testing still works
+        const stash = JSON.parse(localStorage.getItem('wdsl_responses') || '[]');
+        stash.push(payload);
+        localStorage.setItem('wdsl_responses', JSON.stringify(stash));
+        console.log('No SHEET_ENDPOINT set. Saved to localStorage:', payload);
+      }
+
+      // Success state
+      form.style.display = 'none';
+      thanks.classList.add('visible');
+      thanks.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (err) {
+      console.error(err);
+      showError("Something went sideways sending that. Try again in a sec?");
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
